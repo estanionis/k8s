@@ -24,7 +24,7 @@ chmod +x k8s-scp-join.sh
 ./k8s-scp-join.sh
 ```
 
-### Join Node to kluster
+### Join Node to k8s cluster
 ```sh
 wget https://raw.githubusercontent.com/estanionis/k8s/main/k8s-init-join.sh
 
