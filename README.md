@@ -7,7 +7,7 @@ chmod +x k8s-setup.sh
 
 ./k8s-setup.sh
 ```
-### Init master
+### Init control-plane
 ```sh
 wget https://raw.githubusercontent.com/estanionis/k8s/main/k8s-init-join.sh
 
@@ -22,6 +22,15 @@ wget https://raw.githubusercontent.com/estanionis/k8s/main/k8s-scp-join.sh
 chmod +x k8s-scp-join.sh
 
 ./k8s-scp-join.sh
+```
+
+### Join node
+```sh
+wget https://raw.githubusercontent.com/estanionis/k8s/main/k8s-init-join.sh
+
+chmod +x k8s-init-join.sh
+
+./k8s-init-join.sh
 ```
 
 #### Check
