@@ -24,7 +24,7 @@ chmod +x k8s-scp-join.sh
 ./k8s-scp-join.sh
 ```
 
-### Join node
+### Join Node to kluster
 ```sh
 wget https://raw.githubusercontent.com/estanionis/k8s/main/k8s-init-join.sh
 
@@ -33,7 +33,7 @@ chmod +x k8s-init-join.sh
 ./k8s-init-join.sh
 ```
 
-#### Check
+### Check Health
 ```sh
 wget https://raw.githubusercontent.com/estanionis/k8s/main/k8s-check.sh
 
