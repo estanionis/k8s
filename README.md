@@ -17,7 +17,11 @@ chmod +x k8s-init-join.sh
 ```
 
 ```sh
-for host in {k8s-1,k8s-2,k8s-3}; do scp kubeadm_join_command.sh "USERNAME"@$host:~/; done
+wget https://raw.githubusercontent.com/estanionis/k8s/main/k8s-scp-join.sh
+
+chmod +x k8s-scp-join.sh
+
+./k8s-scp-join.sh
 ```
 
 #### Check
