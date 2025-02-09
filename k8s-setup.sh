@@ -5,9 +5,24 @@
 
 set -e  # Exit immediately if a command exits with a non-zero status
 
+# Prompt the user to enter the domain name
+read -p "Enter your domain: " DOMAIN
+
+# Check if the domain is empty
+if [ -z "$DOMAIN" ]; then
+    echo "❌ Domain cannot be empty!"
+    exit 1
+fi
+
+# Replace example.com with the entered domain in variables
+K8S_0="k8s-0.$DOMAIN"
+K8S_1="k8s-1.$DOMAIN"
+K8S_2="k8s-2.$DOMAIN"
+K8S_3="k8s-3.$DOMAIN"
+
 # Detect if DNS is available
 DNS_AVAILABLE=false
-if host k8s-0.robirentsoft.com &>/dev/null; then
+if host "$K8S_0" &>/dev/null; then
     DNS_AVAILABLE=true
 fi
 
@@ -15,10 +30,10 @@ fi
 if [ "$DNS_AVAILABLE" = false ]; then
     echo "🔹 DNS is not available, adding entries to /etc/hosts"
     cat <<EOF | sudo tee -a /etc/hosts
-192.168.4.100   k8s-0
-192.168.4.101   k8s-1
-192.168.4.102   k8s-2
-192.168.4.103   k8s-3
+192.168.4.100   $K8S_0
+192.168.4.101   $K8S_1
+192.168.4.102   $K8S_2
+192.168.4.103   $K8S_3
 EOF
 else
     echo "✅ DNS is available, skipping /etc/hosts modifications"
@@ -67,7 +82,7 @@ sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
 # Add Kubernetes Repository
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
@@ -78,5 +93,4 @@ sudo apt-mark hold kubelet kubeadm kubectl containerd
 # Enable kubelet service
 sudo systemctl enable --now kubelet
 
-# The cluster initialization and joining process has been moved to a separate script
 echo "✅ System setup complete. Now run 'k8s-init-join.sh' on all nodes."
