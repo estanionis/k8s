@@ -1,1 +1,1 @@
-# k8s
+# k8s setup, init and check
